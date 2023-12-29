@@ -11,3 +11,8 @@ body {
 
   overscroll-behavior: none;
 }
+
+textarea,
+input {
+  all: unset;
+}
