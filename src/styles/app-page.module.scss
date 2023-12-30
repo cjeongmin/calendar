@@ -83,3 +83,46 @@
     font-size: 0.7rem;
   }
 }
+
+.header {
+  padding: 0 1rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    color: #e0e0e0;
+    margin: 0 0.8rem;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.8rem;
+    gap: 1px;
+
+    button {
+      all: unset;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      height: 75%;
+      span {
+        scale: 0.5;
+      }
+
+      div {
+        padding: 7px;
+      }
+    }
+
+    button:hover {
+      background-color: #272727;
+      border-radius: 5px;
+    }
+  }
+}
