@@ -13,9 +13,33 @@
     flex-grow: 1;
     padding: 1rem;
 
-    h1 {
-      font-size: 0.8rem;
-      color: #656565;
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        all: unset;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #808080;
+        width: 1.5rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        color: #909090;
+        background-color: #393939;
+        border-radius: 5px;
+      }
+
+      h1 {
+        font-size: 0.8rem;
+        color: #656565;
+      }
     }
 
     .calendar-list {

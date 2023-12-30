@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.utils}>
-        <div className={styles["add-button"]}>+</div>
+        <button className={styles["add-button"]}>+</button>
         <div className={styles.types}>
           <span>일</span>
           <span>주</span>

@@ -7,7 +7,10 @@ export default function Navbar() {
     <>
       <nav className={styles.nav}>
         <div className={styles.main}>
-          <h1>Calendar</h1>
+          <div className={styles.title}>
+            <h1>Calendar</h1>
+            <button>+</button>
+          </div>
           <ul className={styles["calendar-list"]}>
             <li>
               <CheckBox backgroundColor="#7B81F7" checked />
