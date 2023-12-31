@@ -2,6 +2,9 @@
   width: 100vw;
   height: 100vh;
   background: #1e1e1e;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .utils {
@@ -124,5 +127,41 @@
       background-color: #272727;
       border-radius: 5px;
     }
+  }
+}
+
+.main-calendar {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem;
+  color: #dbdbdb;
+
+  flex-grow: 1;
+
+  height: auto;
+  .week {
+    display: flex;
+    justify-content: space-between;
+    text-align: end;
+
+    span {
+      flex-grow: 1;
+    }
+
+    margin-bottom: 1rem;
+  }
+
+  .dates {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .weekend {
+    color: #878787;
+  }
+
+  span {
+    text-align: end;
   }
 }

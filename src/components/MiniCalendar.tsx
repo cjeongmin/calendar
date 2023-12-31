@@ -13,16 +13,16 @@ export default function MiniCalendar() {
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
 
-  const datesArray = [];
+  const dates = [];
   let currentDate = 1;
   for (let i = 0; i <= rows; i++) {
     for (let j = 0; j < 7; j++) {
       if (i === 0 && j < firstDayOfMonth.getDay()) {
-        datesArray.push(null);
+        dates.push(null);
       } else if (currentDate > lastDayOfMonth.getDate()) {
-        datesArray.push(null);
+        dates.push(null);
       } else {
-        datesArray.push(new Date(year, month - 1, currentDate));
+        dates.push(new Date(year, month - 1, currentDate));
         currentDate += 1;
       }
     }
@@ -39,7 +39,7 @@ export default function MiniCalendar() {
         {week.map((v, i) => (
           <span key={i}>{v}</span>
         ))}
-        {datesArray.map((v, i) =>
+        {dates.map((v, i) =>
           v?.getFullYear() === today.getFullYear() &&
           v.getMonth() === today.getMonth() &&
           v.getDate() === today.getDate() ? (

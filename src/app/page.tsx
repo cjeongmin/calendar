@@ -4,6 +4,25 @@ export default function Home() {
   const today = new Date();
   const [year, month] = [today.getFullYear(), today.getMonth() + 1];
 
+  const firstDayOfMonth = new Date(year, month - 1, 1);
+  const lastDayOfMonth = new Date(year, month, 0);
+
+  let date = firstDayOfMonth.getDay();
+  const dates: Array<Date | null> = [];
+  let currentDate = 1;
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 7; j++) {
+      if (i === 0 && j < firstDayOfMonth.getDay()) {
+        dates.push(null);
+      } else if (currentDate > lastDayOfMonth.getDate()) {
+        dates.push(null);
+      } else {
+        dates.push(new Date(year, month - 1, currentDate));
+        currentDate += 1;
+      }
+    }
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.utils}>
@@ -30,6 +49,27 @@ export default function Home() {
           </button>
         </div>
       </header>
+      <div className={styles["main-calendar"]}>
+        <div className={styles.week}>
+          <span className={styles.weekend}>일</span>
+          <span>월</span>
+          <span>화</span>
+          <span>수</span>
+          <span>목</span>
+          <span>금</span>
+          <span className={styles.weekend}>토</span>
+        </div>
+        <div className={styles.dates}>
+          {dates.map((v, i) => (
+            <span
+              className={i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : ""}
+              key={i}
+            >
+              {v?.getDate()}
+            </span>
+          ))}
+        </div>
+      </div>
     </main>
   );
 }
