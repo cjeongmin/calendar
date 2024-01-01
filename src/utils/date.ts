@@ -17,7 +17,7 @@ export function getDates(year: number, month: number): Date[] {
     date++;
   }
 
-  let remains = 42 - ret.length;
+  let remains = 7 - (ret.length % 7);
   for (let j = 0, date = 1; j < remains; j++) {
     ret.push(new Date(year, _month + 1, date));
     date++;
