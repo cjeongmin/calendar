@@ -1,27 +1,11 @@
 import styles from "@/styles/app-page.module.scss";
+import { getDates } from "@/utils/date";
 
 export default function Home() {
   const today = new Date();
   const [year, month] = [today.getFullYear(), today.getMonth() + 1];
 
-  const firstDayOfMonth = new Date(year, month - 1, 1);
-  const lastDayOfMonth = new Date(year, month, 0);
-
-  let date = firstDayOfMonth.getDay();
-  const dates: Array<Date | null> = [];
-  let currentDate = 1;
-  for (let i = 0; i < 6; i++) {
-    for (let j = 0; j < 7; j++) {
-      if (i === 0 && j < firstDayOfMonth.getDay()) {
-        dates.push(null);
-      } else if (currentDate > lastDayOfMonth.getDate()) {
-        dates.push(null);
-      } else {
-        dates.push(new Date(year, month - 1, currentDate));
-        currentDate += 1;
-      }
-    }
-  }
+  const dates = getDates(year, month);
 
   return (
     <main className={styles.main}>
@@ -62,7 +46,9 @@ export default function Home() {
         <div className={styles.dates}>
           {dates.map((v, i) => (
             <span
-              className={i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : ""}
+              className={[
+                i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : "",
+              ].join("")}
               key={i}
             >
               {v?.getDate()}
