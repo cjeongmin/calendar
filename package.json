@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "version": "0.1.0",
-  "homepage": "/calendar",
+  "homepage": "https://cjeongmin.github.io/calendar",
   "private": true,
   "scripts": {
     "dev": "next dev",
