@@ -133,12 +133,10 @@
 .main-calendar {
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem;
+  padding: 1rem 0 0 0;
   color: #dbdbdb;
+  flex: 1 0 0;
 
-  flex-grow: 1;
-
-  height: auto;
   .week {
     display: flex;
     justify-content: space-between;
@@ -146,6 +144,7 @@
 
     span {
       flex-grow: 1;
+      padding-right: 5px;
     }
 
     margin-bottom: 1rem;
@@ -153,22 +152,32 @@
 
   .dates {
     display: grid;
-    height: 100%;
+    flex-grow: 1;
+
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
 
     span {
-      padding: 5%;
-      border-top: 1px solid #272727;
-      border-left: 1px solid #272727;
+      font-size: 0.8rem;
+      padding: 5px;
+      border-top: 1px solid #303030;
+      border-left: 1px solid #303030;
     }
 
-    border-right: 1px solid #272727;
-    border-bottom: 1px solid #272727;
+    border-right: 1px solid #303030;
+    border-bottom: 1px solid #303030;
   }
 
   .weekend {
     color: #878787;
+  }
+
+  .other-month {
+    color: #5b5b5b;
+  }
+
+  .today {
+    color: #ff5c47;
+    font-weight: bold;
   }
 
   span {

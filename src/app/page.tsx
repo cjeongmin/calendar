@@ -48,10 +48,25 @@ export default function Home() {
             <span
               className={[
                 i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : "",
-              ].join("")}
+                v.getMonth() !== today.getMonth() ? styles["other-month"] : "",
+                v.getFullYear() === today.getFullYear() &&
+                v.getMonth() === today.getMonth() &&
+                v.getDate() === today.getDate()
+                  ? styles["today"]
+                  : "",
+              ].join(" ")}
+              style={
+                i % 7 === 0 || i % 7 === 6
+                  ? {
+                      backgroundColor: "#272727",
+                    }
+                  : {}
+              }
               key={i}
             >
-              {v?.getDate()}
+              {v.getDate() === 1
+                ? `${v.getMonth() + 1}월 ${v.getDate()}일`
+                : `${v.getDate()}일`}
             </span>
           ))}
         </div>
