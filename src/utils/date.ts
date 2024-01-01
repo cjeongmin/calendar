@@ -4,7 +4,7 @@ export function getDates(year: number, month: number): Date[] {
   const _month = month - 1;
 
   const firstDayOfMonth = new Date(year, _month, 1);
-  const lastDayOfMonth = new Date(year, _month, 0);
+  const lastDayOfMonth = new Date(year, _month + 1, 0);
 
   let i = firstDayOfMonth.getDay();
   for (let j = 0; j < i; j++) {
