@@ -3,7 +3,7 @@ const nextConfig = {
   output: "export",
   assetPrefix:
     process.env.NODE_ENV === "production"
-      ? "https://cjeongmin.github.io/calendar/blob/gh-pages"
+      ? "https://raw.githubusercontent.com/cjeongmin/calendar/gh-pages/"
       : undefined,
 };
 
