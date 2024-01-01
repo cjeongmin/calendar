@@ -1,6 +1,7 @@
 {
   "name": "calendar",
   "version": "0.1.0",
+  "homepage": "/calendar",
   "private": true,
   "scripts": {
     "dev": "next dev",
