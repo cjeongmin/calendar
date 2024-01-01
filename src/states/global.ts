@@ -17,11 +17,11 @@ export const mainCalendarDate = selector<Date>({
     const global = get(globalState);
     return global.mainCalendarDate;
   },
-  set: ({ get, set, reset }, newValue) => {
+  set: ({ get, set, reset }, mainCalendarDate) => {
     const global = get(globalState);
-    if (newValue instanceof Date) {
-      set(globalState, { ...global, mainCalendarDate: newValue });
-    } else if (newValue instanceof DefaultValue) {
+    if (mainCalendarDate instanceof Date) {
+      set(globalState, { ...global, mainCalendarDate });
+    } else if (mainCalendarDate instanceof DefaultValue) {
       reset(globalState);
     }
   },
@@ -33,11 +33,11 @@ export const miniCalendarDate = selector<Date>({
     const global = get(globalState);
     return global.miniCalendarDate;
   },
-  set: ({ get, set, reset }, newValue) => {
+  set: ({ get, set, reset }, miniCalendarDate) => {
     const global = get(globalState);
-    if (newValue instanceof Date) {
-      set(globalState, { ...global, miniCalendarDate: newValue });
-    } else if (newValue instanceof DefaultValue) {
+    if (miniCalendarDate instanceof Date) {
+      set(globalState, { ...global, miniCalendarDate });
+    } else if (miniCalendarDate instanceof DefaultValue) {
       reset(globalState);
     }
   },
