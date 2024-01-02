@@ -5,13 +5,16 @@ import styles from "@/styles/main-header.module.scss";
 import { useRecoilState } from "recoil";
 
 const MainHeader = () => {
-  const [today, setToday] = useRecoilState(mainCalendarDate);
-  const [year, month] = [today.getFullYear(), today.getMonth() + 1];
+  const [calendarDate, setDate] = useRecoilState(mainCalendarDate);
+  const [year, month] = [
+    calendarDate.getFullYear(),
+    calendarDate.getMonth() + 1,
+  ];
 
   const changeMonth = (value: number) => {
-    const alt = new Date(today);
+    const alt = new Date(calendarDate);
     alt.setMonth(alt.getMonth() + value, 1);
-    setToday(alt);
+    setDate(alt);
   };
 
   return (
@@ -21,7 +24,7 @@ const MainHeader = () => {
         <button onClick={() => changeMonth(-1)}>
           <span className="material-symbols-outlined">arrow_back_ios</span>
         </button>
-        <button onClick={() => setToday(new Date())}>
+        <button onClick={() => setDate(new Date())}>
           <div>오늘</div>
         </button>
         <button onClick={() => changeMonth(1)}>
