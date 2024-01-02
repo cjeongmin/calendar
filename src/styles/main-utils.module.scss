@@ -1,0 +1,79 @@
+.utils {
+  display: flex;
+  padding: 0.5rem;
+
+  justify-content: space-between;
+  align-items: center;
+
+  .add-button {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 1rem;
+    color: #808080;
+    font-size: 1.5rem;
+    font-weight: 200;
+    cursor: pointer;
+  }
+
+  .add-button:hover {
+    background-color: #292929;
+    border-radius: 5px;
+  }
+
+  .types {
+    display: flex;
+
+    color: #9e9e9e;
+    font-size: 0.85rem;
+    border: 0.5px solid #4d4d4d;
+    border-radius: 5px;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1rem;
+      height: 1.5rem;
+      width: 4rem;
+
+      &:not(:last-child) {
+        border-right: 0.5px solid #4d4d4d;
+      }
+
+      &:hover {
+        border-radius: 3px;
+        background-color: #3f3f3f;
+      }
+    }
+
+    &:hover {
+      background-color: #303030;
+    }
+  }
+
+  .search {
+    width: 8rem;
+    border: 0.5px solid #4d4d4d;
+    border-radius: 3px;
+
+    color: #fdfdfd;
+    font-size: 0.7rem;
+
+    padding: 5px;
+
+    &:focus {
+      outline: 3px solid #854941;
+      background-color: #272727;
+    }
+
+    &::placeholder {
+      color: #4d4d4d;
+      font-size: 0.7rem;
+    }
+  }
+}
