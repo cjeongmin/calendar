@@ -1,0 +1,54 @@
+.main-calendar {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0 0 0;
+  color: #dbdbdb;
+  flex: 1 0 0;
+
+  .week {
+    display: flex;
+    justify-content: space-between;
+    text-align: end;
+
+    span {
+      flex-grow: 1;
+      padding-right: 5px;
+    }
+
+    margin-bottom: 1rem;
+  }
+
+  .dates {
+    display: grid;
+    flex-grow: 1;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    span {
+      font-size: 0.8rem;
+      padding: 5px;
+      border-top: 1px solid #303030;
+      border-left: 1px solid #303030;
+    }
+
+    border-right: 1px solid #303030;
+    border-bottom: 1px solid #303030;
+  }
+
+  .weekend {
+    color: #878787;
+  }
+
+  .other-month {
+    color: #5b5b5b;
+  }
+
+  .today {
+    color: #ff5c47;
+    font-weight: bold;
+  }
+
+  span {
+    text-align: end;
+  }
+}
