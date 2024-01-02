@@ -1,3 +1,4 @@
+import MainHeader from "@/components/MainHeader";
 import MainUtils from "@/components/MainUtils";
 import styles from "@/styles/app-page.module.scss";
 import { getDates } from "@/utils/date";
@@ -11,20 +12,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <MainUtils />
-      <header className={styles.header}>
-        <h1>{`${year}년 ${month}월`}</h1>
-        <div className={styles.buttons}>
-          <button>
-            <span className="material-symbols-outlined">arrow_back_ios</span>
-          </button>
-          <button>
-            <div>오늘</div>
-          </button>
-          <button>
-            <span className="material-symbols-outlined">arrow_forward_ios</span>
-          </button>
-        </div>
-      </header>
+      <MainHeader year={year} month={month} />
       <div className={styles["main-calendar"]}>
         <div className={styles.week}>
           <span className={styles.weekend}>일</span>
