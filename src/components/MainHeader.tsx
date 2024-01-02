@@ -2,23 +2,29 @@
 
 import { mainCalendarDate } from "@/states/global";
 import styles from "@/styles/main-header.module.scss";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 const MainHeader = () => {
-  const today = useRecoilValue(mainCalendarDate);
+  const [today, setToday] = useRecoilState(mainCalendarDate);
   const [year, month] = [today.getFullYear(), today.getMonth() + 1];
+
+  const changeMonth = (value: number) => {
+    const alt = new Date(today);
+    alt.setMonth(alt.getMonth() + value, 1);
+    setToday(alt);
+  };
 
   return (
     <header className={styles.header}>
       <h1>{`${year}년 ${month}월`}</h1>
       <div className={styles.buttons}>
-        <button>
+        <button onClick={() => changeMonth(-1)}>
           <span className="material-symbols-outlined">arrow_back_ios</span>
         </button>
-        <button>
+        <button onClick={() => setToday(new Date())}>
           <div>오늘</div>
         </button>
-        <button>
+        <button onClick={() => changeMonth(1)}>
           <span className="material-symbols-outlined">arrow_forward_ios</span>
         </button>
       </div>

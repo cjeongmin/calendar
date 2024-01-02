@@ -6,8 +6,12 @@ import { getDates } from "@/utils/date";
 import { useRecoilValue } from "recoil";
 
 const MonthCalendar = () => {
-  const today = useRecoilValue(mainCalendarDate);
-  const dates = getDates(today.getFullYear(), today.getMonth() + 1);
+  const today = new Date();
+  const calendarDate = useRecoilValue(mainCalendarDate);
+  const dates = getDates(
+    calendarDate.getFullYear(),
+    calendarDate.getMonth() + 1
+  );
 
   return (
     <div className={styles["main-calendar"]}>
@@ -25,7 +29,9 @@ const MonthCalendar = () => {
           <span
             className={[
               i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : "",
-              v.getMonth() !== today.getMonth() ? styles["other-month"] : "",
+              v.getMonth() !== calendarDate.getMonth()
+                ? styles["other-month"]
+                : "",
               v.getFullYear() === today.getFullYear() &&
               v.getMonth() === today.getMonth() &&
               v.getDate() === today.getDate()
