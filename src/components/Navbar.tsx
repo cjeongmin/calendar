@@ -1,8 +1,25 @@
+"use client";
+
+import useCalendarsState from "@/hooks/useCalendarsState";
 import styles from "@/styles/navbar.module.scss";
 import CheckBox from "./CheckBox";
 import MiniCalendar from "./MiniCalendar";
+import { useEffect } from "react";
+import { Calendar } from "@/atoms/calendars";
+import useCalendarsStateActions from "@/hooks/useCalendarsStateActions";
 
 export default function Navbar() {
+  const [calendars, setCalendars] = useCalendarsState();
+  const { toggle: toggleCheckBox } = useCalendarsStateActions();
+
+  useEffect(() => {
+    const data = localStorage.getItem("calendars");
+    if (data) {
+      const alt: Calendar[] = JSON.parse(data);
+      setCalendars(alt);
+    }
+  }, []);
+
   return (
     <>
       <nav className={styles.nav}>
@@ -12,14 +29,20 @@ export default function Navbar() {
             <button>+</button>
           </div>
           <ul className={styles["calendar-list"]}>
-            <li>
-              <CheckBox backgroundColor="#7B81F7" checked />
-              <span>캘린더</span>
-            </li>
-            <li>
-              <CheckBox backgroundColor="#EA426A" checked={false} />
-              <span>대학교</span>
-            </li>
+            {calendars.map((calendar, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  toggleCheckBox(calendar.name);
+                }}
+              >
+                <CheckBox
+                  backgroundColor={calendar.color}
+                  checked={calendar.checked}
+                />
+                <span>{calendar.name}</span>
+              </li>
+            ))}
           </ul>
         </div>
 

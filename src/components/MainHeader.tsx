@@ -1,6 +1,6 @@
 "use client";
 
-import { mainCalendarDate } from "@/states/global";
+import { mainCalendarDate } from "@/atoms/global";
 import styles from "@/styles/main-header.module.scss";
 import { useRecoilState } from "recoil";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { miniCalendarDate } from "@/states/global";
+import { miniCalendarDate } from "@/atoms/global";
 import styles from "@/styles/mini-calendar.module.scss";
 import { getDates } from "@/utils/date";
 import { useRecoilState } from "recoil";
