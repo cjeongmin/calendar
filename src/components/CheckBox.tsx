@@ -1,5 +1,5 @@
 import styles from "@/styles/check-box.module.scss";
-import { HTMLAttributes, ReactElement } from "react";
+import { HTMLAttributes } from "react";
 
 type Props = {
   backgroundColor: string;

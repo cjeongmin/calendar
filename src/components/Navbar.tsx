@@ -1,12 +1,12 @@
 "use client";
 
+import { Calendar } from "@/atoms/calendars";
 import useCalendarsState from "@/hooks/useCalendarsState";
+import useCalendarsStateActions from "@/hooks/useCalendarsStateActions";
 import styles from "@/styles/navbar.module.scss";
+import { useEffect } from "react";
 import CheckBox from "./CheckBox";
 import MiniCalendar from "./MiniCalendar";
-import { useEffect } from "react";
-import { Calendar } from "@/atoms/calendars";
-import useCalendarsStateActions from "@/hooks/useCalendarsStateActions";
 
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
