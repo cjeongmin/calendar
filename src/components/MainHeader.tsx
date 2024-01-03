@@ -1,11 +1,10 @@
 "use client";
 
-import { mainCalendarDate } from "@/atoms/global";
+import { useMainCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/main-header.module.scss";
-import { useRecoilState } from "recoil";
 
 const MainHeader = () => {
-  const [calendarDate, setDate] = useRecoilState(mainCalendarDate);
+  const [calendarDate, setDate] = useMainCalendarDateState();
   const [year, month] = [
     calendarDate.getFullYear(),
     calendarDate.getMonth() + 1,

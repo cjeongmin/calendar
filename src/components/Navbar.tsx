@@ -10,13 +10,17 @@ import useCalendarsStateActions from "@/hooks/useCalendarsStateActions";
 
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
-  const { toggle: toggleCheckBox } = useCalendarsStateActions();
+  const { add: addCalendar, toggle: toggleCheckBox } =
+    useCalendarsStateActions();
 
   useEffect(() => {
     const data = localStorage.getItem("calendars");
     if (data) {
       const alt: Calendar[] = JSON.parse(data);
       setCalendars(alt);
+    } else {
+      // 없으면 기본 캘린더 추가
+      addCalendar("캘린더", "#60C69A");
     }
   }, []);
 

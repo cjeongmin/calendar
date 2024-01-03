@@ -1,13 +1,12 @@
 "use client";
 
-import { mainCalendarDate } from "@/atoms/global";
+import { useMainCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/month-calendar.module.scss";
 import { getDates } from "@/utils/date";
-import { useRecoilValue } from "recoil";
 
 const MonthCalendar = () => {
   const today = new Date();
-  const calendarDate = useRecoilValue(mainCalendarDate);
+  const [calendarDate, _] = useMainCalendarDateState();
   const dates = getDates(
     calendarDate.getFullYear(),
     calendarDate.getMonth() + 1

@@ -1,12 +1,11 @@
 "use client";
 
-import { miniCalendarDate } from "@/atoms/global";
+import { useMiniCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/mini-calendar.module.scss";
 import { getDates } from "@/utils/date";
-import { useRecoilState } from "recoil";
 
 export default function MiniCalendar() {
-  const [date, setDate] = useRecoilState(miniCalendarDate);
+  const [date, setDate] = useMiniCalendarDateState();
   const [year, month] = [date.getFullYear(), date.getMonth() + 1];
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
