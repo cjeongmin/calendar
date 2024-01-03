@@ -30,15 +30,13 @@ export default function Navbar() {
           </div>
           <ul className={styles["calendar-list"]}>
             {calendars.map((calendar, i) => (
-              <li
-                key={i}
-                onClick={() => {
-                  toggleCheckBox(calendar.name);
-                }}
-              >
+              <li key={i}>
                 <CheckBox
                   backgroundColor={calendar.color}
                   checked={calendar.checked}
+                  onClick={() => {
+                    toggleCheckBox(calendar.name);
+                  }}
                 />
                 <span>{calendar.name}</span>
               </li>
