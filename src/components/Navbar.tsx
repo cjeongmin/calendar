@@ -4,9 +4,23 @@ import { Calendar } from "@/atoms/calendars";
 import useCalendarsState from "@/hooks/useCalendarsState";
 import useCalendarsStateActions from "@/hooks/useCalendarsStateActions";
 import styles from "@/styles/navbar.module.scss";
-import { useEffect } from "react";
+import { HTMLAttributes, useEffect } from "react";
 import CheckBox from "./CheckBox";
 import MiniCalendar from "./MiniCalendar";
+
+const CalendarListItem = ({
+  color,
+  checked,
+  name,
+  onClick,
+}: Calendar & HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={styles["calendar-list-item"]}>
+      <CheckBox backgroundColor={color} checked={checked} onClick={onClick} />
+      <span>{name}</span>
+    </div>
+  );
+};
 
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
@@ -35,14 +49,14 @@ export default function Navbar() {
           <ul className={styles["calendar-list"]}>
             {calendars.map((calendar, i) => (
               <li key={i}>
-                <CheckBox
-                  backgroundColor={calendar.color}
+                <CalendarListItem
+                  name={calendar.name}
+                  color={calendar.color}
                   checked={calendar.checked}
                   onClick={() => {
                     toggleCheckBox(calendar.name);
                   }}
                 />
-                <span>{calendar.name}</span>
               </li>
             ))}
           </ul>
