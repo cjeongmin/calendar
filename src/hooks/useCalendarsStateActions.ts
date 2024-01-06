@@ -48,23 +48,15 @@ const useCalendarsStateActions = () => {
       }
 
       setCalendars((prev) =>
-        prev
-          .filter((item) => item.name !== name)
-          .concat({
-            ...calendar,
-            checked: !calendar?.checked,
-          })
+        prev.map((v) => (v.name === name ? { ...v, checked: !v.checked } : v))
       );
 
       localStorage.setItem(
         "calendars",
         JSON.stringify(
-          calendars
-            .filter((item) => item.name !== name)
-            .concat({
-              ...calendar,
-              checked: !calendar?.checked,
-            })
+          calendars.map((v) =>
+            v.name === name ? { ...v, checked: !v.checked } : v
+          )
         )
       );
     },
