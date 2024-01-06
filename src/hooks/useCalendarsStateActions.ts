@@ -68,7 +68,7 @@ const useCalendarsStateActions = () => {
       setCalendars((prev) => prev.filter((v) => v.name !== name));
       localStorage.setItem(
         "calendars",
-        JSON.stringify(calendars.map((v) => v.name !== name))
+        JSON.stringify(calendars.filter((v) => v.name !== name))
       );
     },
     [calendars, setCalendars, find]
