@@ -63,7 +63,21 @@ const useCalendarsStateActions = () => {
     [calendars, setCalendars, find]
   );
 
-  return useMemo(() => ({ add, find, toggle }), [add, find, toggle]);
+  const remove = useCallback(
+    (name: string) => {
+      setCalendars((prev) => prev.filter((v) => v.name !== name));
+      localStorage.setItem(
+        "calendars",
+        JSON.stringify(calendars.map((v) => v.name !== name))
+      );
+    },
+    [calendars, setCalendars, find]
+  );
+
+  return useMemo(
+    () => ({ add, find, toggle, remove }),
+    [add, find, toggle, remove]
+  );
 };
 
 export default useCalendarsStateActions;

@@ -10,12 +10,14 @@ export default function CheckBox({
   backgroundColor,
   checked,
   onClick,
+  onDoubleClick,
 }: Props & HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={styles.container}
       style={{ backgroundColor }}
       onClick={onClick}
+      onDoubleClick={onDoubleClick}
     >
       {checked ? (
         <span className="material-symbols-outlined">done</span>

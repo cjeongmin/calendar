@@ -10,6 +10,12 @@ body {
   color: #f0f0f0;
 
   overscroll-behavior: none;
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 textarea,

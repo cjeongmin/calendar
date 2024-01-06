@@ -15,10 +15,16 @@ const CalendarListItem = ({
   checked,
   name,
   onClick,
+  onDoubleClick,
 }: Calendar & HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={styles["calendar-list-item"]}>
-      <CheckBox backgroundColor={color} checked={checked} onClick={onClick} />
+    <div className={styles["calendar-list-item"]} onDoubleClick={onDoubleClick}>
+      <CheckBox
+        backgroundColor={color}
+        checked={checked}
+        onClick={onClick}
+        onDoubleClick={(ev) => ev.stopPropagation()}
+      />
       <span>{name}</span>
     </div>
   );
@@ -105,8 +111,11 @@ const CreateCalendarButton = () => {
 
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
-  const { add: addCalendar, toggle: toggleCheckBox } =
-    useCalendarsStateActions();
+  const {
+    add: addCalendar,
+    toggle: toggleCalendarVisibility,
+    remove: removeCalendar,
+  } = useCalendarsStateActions();
 
   useEffect(() => {
     const data = localStorage.getItem("calendars");
@@ -135,7 +144,10 @@ export default function Navbar() {
                   color={calendar.color}
                   checked={calendar.checked}
                   onClick={() => {
-                    toggleCheckBox(calendar.name);
+                    toggleCalendarVisibility(calendar.name);
+                  }}
+                  onDoubleClick={() => {
+                    removeCalendar(calendar.name);
                   }}
                 />
               </li>
