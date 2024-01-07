@@ -1,12 +1,14 @@
-import { calendarsState } from "@/atoms/calendars";
+import { Calendar, calendarsState } from "@/atoms/calendars";
 import { useCallback, useMemo } from "react";
 import { useRecoilState } from "recoil";
+
+type CalendarOption = { [key in keyof Calendar]?: Calendar[key] };
 
 const useCalendarsStateActions = () => {
   const [calendars, setCalendars] = useRecoilState(calendarsState);
 
   const add = useCallback(
-    (name: string, color: string) => {
+    ({ name, color, checked }: Calendar) => {
       if (calendars.find((calendar) => calendar.name === name)) {
         return;
       }
@@ -15,7 +17,7 @@ const useCalendarsStateActions = () => {
         prev.concat({
           name,
           color,
-          checked: true,
+          checked,
         })
       );
 
@@ -25,7 +27,7 @@ const useCalendarsStateActions = () => {
           calendars.concat({
             name,
             color,
-            checked: true,
+            checked,
           })
         )
       );
@@ -74,9 +76,34 @@ const useCalendarsStateActions = () => {
     [calendars, setCalendars, find]
   );
 
+  const update = useCallback(
+    (calendar: CalendarOption) => {
+      setCalendars((prev) =>
+        prev.map((v) =>
+          v.name !== calendar.name
+            ? v
+            : {
+                ...v,
+                ...calendar,
+              }
+        )
+      );
+
+      localStorage.setItem(
+        "calendars",
+        JSON.stringify(
+          calendars.map((v) =>
+            v.name !== calendar.name ? v : { ...v, ...calendar }
+          )
+        )
+      );
+    },
+    [calendars, setCalendars]
+  );
+
   return useMemo(
-    () => ({ add, find, toggle, remove }),
-    [add, find, toggle, remove]
+    () => ({ add, find, toggle, remove, update }),
+    [add, find, toggle, remove, update]
   );
 };
 

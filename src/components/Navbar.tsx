@@ -62,7 +62,7 @@ const CreateCalendarButton = () => {
       return;
     }
 
-    add(title, color);
+    add({ name: title, color, checked: true });
     setTitle("");
     setColor(CalendarDefaultColor);
   };
@@ -124,7 +124,11 @@ export default function Navbar() {
       setCalendars(alt);
     } else {
       // 없으면 기본 캘린더 추가
-      addCalendar("캘린더", CalendarDefaultColor);
+      addCalendar({
+        name: "캘린더",
+        color: CalendarDefaultColor,
+        checked: true,
+      });
     }
   }, []);
 
@@ -140,9 +144,7 @@ export default function Navbar() {
             {calendars.map((calendar, i) => (
               <li key={i}>
                 <CalendarListItem
-                  name={calendar.name}
-                  color={calendar.color}
-                  checked={calendar.checked}
+                  {...calendar}
                   onClick={() => {
                     toggleCalendarVisibility(calendar.name);
                   }}
