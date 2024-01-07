@@ -109,6 +109,27 @@ const CreateCalendarButton = () => {
   );
 };
 
+const UpdaterModal = ({
+  name,
+  color,
+  checked,
+  onCancel,
+  onSubmit,
+}: Calendar & { onCancel?: () => void; onSubmit?: () => void }) => {
+  return (
+    <div
+      className={styles.modal}
+      onClick={() => {
+        onCancel === undefined ? () => {} : onCancel();
+      }}
+    >
+      <div className={styles.content} onClick={(ev) => ev.stopPropagation()}>
+        {name} {color}
+      </div>
+    </div>
+  );
+};
+
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
   const {
@@ -116,6 +137,11 @@ export default function Navbar() {
     toggle: toggleCalendarVisibility,
     remove: removeCalendar,
   } = useCalendarsStateActions();
+
+  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("calendars");
@@ -149,7 +175,8 @@ export default function Navbar() {
                     toggleCalendarVisibility(calendar.name);
                   }}
                   onDoubleClick={() => {
-                    removeCalendar(calendar.name);
+                    setShowModal(true);
+                    setSelectedCalendar(calendar);
                   }}
                 />
               </li>
@@ -161,6 +188,17 @@ export default function Navbar() {
           <MiniCalendar />
         </div>
       </nav>
+
+      {showModal && selectedCalendar !== null ? (
+        <UpdaterModal
+          onCancel={() => {
+            setShowModal(false);
+          }}
+          {...selectedCalendar}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

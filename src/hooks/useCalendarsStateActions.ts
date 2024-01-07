@@ -73,7 +73,7 @@ const useCalendarsStateActions = () => {
         JSON.stringify(calendars.filter((v) => v.name !== name))
       );
     },
-    [calendars, setCalendars, find]
+    [calendars, setCalendars]
   );
 
   const update = useCallback(
