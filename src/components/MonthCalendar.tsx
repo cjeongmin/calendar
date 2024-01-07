@@ -1,5 +1,6 @@
 "use client";
 
+import { getSchedules } from "@/atoms/schedules";
 import { useMainCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/month-calendar.module.scss";
 import { getDates, isSameDate } from "@/utils/date";
