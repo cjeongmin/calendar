@@ -1,7 +1,7 @@
 .nav {
   width: 10vw;
   min-width: 192px;
-  height: 100vh;
+  height: 100%;
   background: #272727;
 
   display: flex;
@@ -72,13 +72,14 @@
           }
 
           input {
+            font-size: 0.8rem;
             padding: 0 1rem;
             width: 100%;
             text-align: left;
           }
 
           input[type="color"] {
-            display: hidden;
+            visibility: hidden;
             position: absolute;
             width: 0;
             top: 100%;
@@ -130,5 +131,61 @@
   &:hover {
     background-color: #393939;
     border-radius: 5px;
+  }
+}
+
+.modal {
+  position: fixed;
+  background-color: #27272780;
+  backdrop-filter: blur(10px);
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+
+  .content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    border: 1px solid #393939;
+    background-color: #272727;
+    border-radius: 5px;
+    padding: 10px;
+
+    div {
+      min-width: 1rem;
+      max-width: 1rem;
+      min-height: 1rem;
+      max-height: 1rem;
+      border-radius: 50%;
+    }
+
+    input[type="color"] {
+      visibility: hidden;
+      position: absolute;
+      width: 0;
+      top: 100%;
+      left: 0;
+    }
+
+    button {
+      all: unset;
+      cursor: pointer;
+      &:hover {
+        background-color: #393939;
+        border-radius: 5px;
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 }

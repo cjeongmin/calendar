@@ -62,7 +62,7 @@ const CreateCalendarButton = () => {
       return;
     }
 
-    add(title, color);
+    add({ name: title, color, checked: true });
     setTitle("");
     setColor(CalendarDefaultColor);
   };
@@ -109,6 +109,77 @@ const CreateCalendarButton = () => {
   );
 };
 
+const UpdaterModal = ({
+  name,
+  color,
+  checked,
+  onDismiss,
+}: Calendar & { onDismiss: () => void }) => {
+  const colorRef = useRef<HTMLDivElement>(null);
+  const colorInputRef = useRef<HTMLInputElement>(null);
+  const [updateName, setUpdateName] = useState(name);
+  const [updateColor, setUpdateColor] = useState(color);
+
+  const { remove, update } = useCalendarsStateActions();
+
+  return (
+    <div
+      className={styles.modal}
+      onClick={() => {
+        onDismiss();
+      }}
+    >
+      <div className={styles.content} onClick={(ev) => ev.stopPropagation()}>
+        <button
+          onClick={() => {
+            onDismiss();
+          }}
+        >
+          <span className="material-symbols-outlined">close</span>
+        </button>
+        <div
+          ref={colorRef}
+          style={{ backgroundColor: updateColor }}
+          onClick={() => {
+            colorInputRef.current?.click();
+          }}
+        />
+        <input
+          type="color"
+          ref={colorInputRef}
+          onChange={(ev) => setUpdateColor(ev.target.value)}
+        />
+        <input
+          type="text"
+          placeholder={"캘린더 이름"}
+          value={updateName}
+          onChange={(ev) => setUpdateName(ev.target.value)}
+        />
+        <button
+          onClick={() => {
+            update(
+              { name, color, checked },
+              { name: updateName, color: updateColor }
+            );
+            onDismiss();
+          }}
+        >
+          <span className="material-symbols-outlined">done</span>
+        </button>
+        <button
+          onClick={() => {
+            remove(name);
+            onDismiss();
+          }}
+          style={{ color: "#ff5c47" }}
+        >
+          <span className="material-symbols-outlined">delete</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
   const {
@@ -117,6 +188,11 @@ export default function Navbar() {
     remove: removeCalendar,
   } = useCalendarsStateActions();
 
+  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     const data = localStorage.getItem("calendars");
     if (data) {
@@ -124,7 +200,11 @@ export default function Navbar() {
       setCalendars(alt);
     } else {
       // 없으면 기본 캘린더 추가
-      addCalendar("캘린더", CalendarDefaultColor);
+      addCalendar({
+        name: "캘린더",
+        color: CalendarDefaultColor,
+        checked: true,
+      });
     }
   }, []);
 
@@ -140,14 +220,13 @@ export default function Navbar() {
             {calendars.map((calendar, i) => (
               <li key={i}>
                 <CalendarListItem
-                  name={calendar.name}
-                  color={calendar.color}
-                  checked={calendar.checked}
+                  {...calendar}
                   onClick={() => {
                     toggleCalendarVisibility(calendar.name);
                   }}
                   onDoubleClick={() => {
-                    removeCalendar(calendar.name);
+                    setShowModal(true);
+                    setSelectedCalendar(calendar);
                   }}
                 />
               </li>
@@ -159,6 +238,17 @@ export default function Navbar() {
           <MiniCalendar />
         </div>
       </nav>
+
+      {showModal && selectedCalendar !== null ? (
+        <UpdaterModal
+          onDismiss={() => {
+            setShowModal(false);
+          }}
+          {...selectedCalendar}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

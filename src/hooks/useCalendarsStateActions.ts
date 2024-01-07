@@ -1,12 +1,14 @@
-import { calendarsState } from "@/atoms/calendars";
+import { Calendar, calendarsState } from "@/atoms/calendars";
 import { useCallback, useMemo } from "react";
 import { useRecoilState } from "recoil";
+
+type CalendarOption = { [key in keyof Calendar]?: Calendar[key] };
 
 const useCalendarsStateActions = () => {
   const [calendars, setCalendars] = useRecoilState(calendarsState);
 
   const add = useCallback(
-    (name: string, color: string) => {
+    ({ name, color, checked }: Calendar) => {
       if (calendars.find((calendar) => calendar.name === name)) {
         return;
       }
@@ -15,7 +17,7 @@ const useCalendarsStateActions = () => {
         prev.concat({
           name,
           color,
-          checked: true,
+          checked,
         })
       );
 
@@ -25,7 +27,7 @@ const useCalendarsStateActions = () => {
           calendars.concat({
             name,
             color,
-            checked: true,
+            checked,
           })
         )
       );
@@ -71,12 +73,45 @@ const useCalendarsStateActions = () => {
         JSON.stringify(calendars.filter((v) => v.name !== name))
       );
     },
+    [calendars, setCalendars]
+  );
+
+  const update = useCallback(
+    (calendar: Calendar, updateOption: CalendarOption) => {
+      if (
+        updateOption.name &&
+        calendar.name !== updateOption.name &&
+        find(updateOption.name) !== undefined
+      ) {
+        return;
+      }
+
+      setCalendars((prev) =>
+        prev.map((v) =>
+          v.name !== calendar.name
+            ? v
+            : {
+                ...v,
+                ...updateOption,
+              }
+        )
+      );
+
+      localStorage.setItem(
+        "calendars",
+        JSON.stringify(
+          calendars.map((v) =>
+            v.name !== calendar.name ? v : { ...v, ...updateOption }
+          )
+        )
+      );
+    },
     [calendars, setCalendars, find]
   );
 
   return useMemo(
-    () => ({ add, find, toggle, remove }),
-    [add, find, toggle, remove]
+    () => ({ add, find, toggle, remove, update }),
+    [add, find, toggle, remove, update]
   );
 };
 
