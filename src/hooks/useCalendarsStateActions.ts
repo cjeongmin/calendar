@@ -77,14 +77,22 @@ const useCalendarsStateActions = () => {
   );
 
   const update = useCallback(
-    (calendar: CalendarOption) => {
+    (calendar: Calendar, updateOption: CalendarOption) => {
+      if (
+        updateOption.name &&
+        calendar.name !== updateOption.name &&
+        find(updateOption.name) !== undefined
+      ) {
+        return;
+      }
+
       setCalendars((prev) =>
         prev.map((v) =>
           v.name !== calendar.name
             ? v
             : {
                 ...v,
-                ...calendar,
+                ...updateOption,
               }
         )
       );
@@ -93,12 +101,12 @@ const useCalendarsStateActions = () => {
         "calendars",
         JSON.stringify(
           calendars.map((v) =>
-            v.name !== calendar.name ? v : { ...v, ...calendar }
+            v.name !== calendar.name ? v : { ...v, ...updateOption }
           )
         )
       );
     },
-    [calendars, setCalendars]
+    [calendars, setCalendars, find]
   );
 
   return useMemo(

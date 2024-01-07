@@ -113,18 +113,68 @@ const UpdaterModal = ({
   name,
   color,
   checked,
-  onCancel,
-  onSubmit,
-}: Calendar & { onCancel?: () => void; onSubmit?: () => void }) => {
+  onDismiss,
+}: Calendar & { onDismiss: () => void }) => {
+  const colorRef = useRef<HTMLDivElement>(null);
+  const colorInputRef = useRef<HTMLInputElement>(null);
+  const [updateName, setUpdateName] = useState(name);
+  const [updateColor, setUpdateColor] = useState(color);
+
+  const { remove, update } = useCalendarsStateActions();
+
   return (
     <div
       className={styles.modal}
       onClick={() => {
-        onCancel === undefined ? () => {} : onCancel();
+        onDismiss();
       }}
     >
       <div className={styles.content} onClick={(ev) => ev.stopPropagation()}>
-        {name} {color}
+        <button
+          onClick={() => {
+            onDismiss();
+          }}
+        >
+          <span className="material-symbols-outlined">close</span>
+        </button>
+        <div
+          ref={colorRef}
+          style={{ backgroundColor: updateColor }}
+          onClick={() => {
+            colorInputRef.current?.click();
+          }}
+        />
+        <input
+          type="color"
+          ref={colorInputRef}
+          onChange={(ev) => setUpdateColor(ev.target.value)}
+        />
+        <input
+          type="text"
+          placeholder={"캘린더 이름"}
+          value={updateName}
+          onChange={(ev) => setUpdateName(ev.target.value)}
+        />
+        <button
+          onClick={() => {
+            update(
+              { name, color, checked },
+              { name: updateName, color: updateColor }
+            );
+            onDismiss();
+          }}
+        >
+          <span className="material-symbols-outlined">done</span>
+        </button>
+        <button
+          onClick={() => {
+            remove(name);
+            onDismiss();
+          }}
+          style={{ color: "#ff5c47" }}
+        >
+          <span className="material-symbols-outlined">delete</span>
+        </button>
       </div>
     </div>
   );
@@ -191,7 +241,7 @@ export default function Navbar() {
 
       {showModal && selectedCalendar !== null ? (
         <UpdaterModal
-          onCancel={() => {
+          onDismiss={() => {
             setShowModal(false);
           }}
           {...selectedCalendar}
