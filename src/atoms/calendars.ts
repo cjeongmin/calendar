@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
 export type Calendar = {
+  id: string;
   name: string;
   color: string;
   checked: boolean;

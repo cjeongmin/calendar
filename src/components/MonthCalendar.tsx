@@ -2,11 +2,44 @@
 
 import { useMainCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/month-calendar.module.scss";
-import { getDates } from "@/utils/date";
+import { getDates, isSameDate } from "@/utils/date";
+
+const DateItem = ({
+  date,
+  isOtherMonth,
+  isToday,
+  isWeekend,
+}: {
+  date: Date;
+  isOtherMonth: boolean;
+  isToday: boolean;
+  isWeekend: boolean;
+}) => {
+  return (
+    <span
+      className={[
+        isWeekend ? styles["weekend"] : "",
+        isOtherMonth ? styles["other-month"] : "",
+        isToday ? styles["today"] : "",
+      ].join(" ")}
+      style={
+        isWeekend
+          ? {
+              backgroundColor: "#272727",
+            }
+          : {}
+      }
+    >
+      {date.getDate() === 1
+        ? `${date.getMonth() + 1}월 ${date.getDate()}일`
+        : `${date.getDate()}일`}
+    </span>
+  );
+};
 
 const MonthCalendar = () => {
   const today = new Date();
-  const [calendarDate, _] = useMainCalendarDateState();
+  const [calendarDate, setCalendarDate] = useMainCalendarDateState();
   const dates = getDates(
     calendarDate.getFullYear(),
     calendarDate.getMonth() + 1
@@ -25,31 +58,13 @@ const MonthCalendar = () => {
       </div>
       <div className={styles.dates}>
         {dates.map((v, i) => (
-          <span
-            className={[
-              i % 7 === 0 || i % 7 === 6 ? styles["weekend"] : "",
-              v.getMonth() !== calendarDate.getMonth()
-                ? styles["other-month"]
-                : "",
-              v.getFullYear() === today.getFullYear() &&
-              v.getMonth() === today.getMonth() &&
-              v.getDate() === today.getDate()
-                ? styles["today"]
-                : "",
-            ].join(" ")}
-            style={
-              i % 7 === 0 || i % 7 === 6
-                ? {
-                    backgroundColor: "#272727",
-                  }
-                : {}
-            }
+          <DateItem
             key={i}
-          >
-            {v.getDate() === 1
-              ? `${v.getMonth() + 1}월 ${v.getDate()}일`
-              : `${v.getDate()}일`}
-          </span>
+            date={v}
+            isOtherMonth={calendarDate.getMonth() !== v.getMonth()}
+            isToday={isSameDate(v, today)}
+            isWeekend={i % 7 === 0 || i % 7 === 6 ? true : false}
+          />
         ))}
       </div>
     </div>
