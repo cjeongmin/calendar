@@ -8,7 +8,7 @@ import { FormEvent, HTMLAttributes, useEffect, useRef, useState } from "react";
 import CheckBox from "./CheckBox";
 import MiniCalendar from "./MiniCalendar";
 
-const CalendarDefaultColor = "#60C69A";
+export const CalendarDefaultColor = "#60C69A";
 
 const CalendarListItem = ({
   color,
@@ -62,7 +62,7 @@ const CreateCalendarButton = () => {
       return;
     }
 
-    add({ name: title, color, checked: true });
+    add({ id: crypto.randomUUID(), name: title, color, checked: true });
     setTitle("");
     setColor(CalendarDefaultColor);
   };
@@ -110,6 +110,7 @@ const CreateCalendarButton = () => {
 };
 
 const UpdaterModal = ({
+  id,
   name,
   color,
   checked,
@@ -158,7 +159,7 @@ const UpdaterModal = ({
         <button
           onClick={() => {
             update(
-              { name, color, checked },
+              { id, name, color, checked },
               { name: updateName, color: updateColor }
             );
             onDismiss();
@@ -168,7 +169,7 @@ const UpdaterModal = ({
         </button>
         <button
           onClick={() => {
-            remove(name);
+            remove(id);
             onDismiss();
           }}
           style={{ color: "#ff5c47" }}
@@ -182,31 +183,12 @@ const UpdaterModal = ({
 
 export default function Navbar() {
   const [calendars, setCalendars] = useCalendarsState();
-  const {
-    add: addCalendar,
-    toggle: toggleCalendarVisibility,
-    remove: removeCalendar,
-  } = useCalendarsStateActions();
+  const { toggle: toggleCalendarVisibility } = useCalendarsStateActions();
 
   const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
     null
   );
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const data = localStorage.getItem("calendars");
-    if (data) {
-      const alt: Calendar[] = JSON.parse(data);
-      setCalendars(alt);
-    } else {
-      // 없으면 기본 캘린더 추가
-      addCalendar({
-        name: "캘린더",
-        color: CalendarDefaultColor,
-        checked: true,
-      });
-    }
-  }, []);
 
   return (
     <>
@@ -222,7 +204,7 @@ export default function Navbar() {
                 <CalendarListItem
                   {...calendar}
                   onClick={() => {
-                    toggleCalendarVisibility(calendar.name);
+                    toggleCalendarVisibility(calendar.id);
                   }}
                   onDoubleClick={() => {
                     setShowModal(true);

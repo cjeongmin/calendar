@@ -1,6 +1,5 @@
 "use client";
 
-import { getSchedules } from "@/atoms/schedules";
 import { useMainCalendarDateState } from "@/hooks/useGlobalState";
 import styles from "@/styles/month-calendar.module.scss";
 import { getDates, isSameDate } from "@/utils/date";
@@ -40,7 +39,7 @@ const DateItem = ({
 
 const MonthCalendar = () => {
   const today = new Date();
-  const [calendarDate, _] = useMainCalendarDateState();
+  const [calendarDate, setCalendarDate] = useMainCalendarDateState();
   const dates = getDates(
     calendarDate.getFullYear(),
     calendarDate.getMonth() + 1

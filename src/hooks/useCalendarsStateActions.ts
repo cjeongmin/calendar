@@ -8,13 +8,10 @@ const useCalendarsStateActions = () => {
   const [calendars, setCalendars] = useRecoilState(calendarsState);
 
   const add = useCallback(
-    ({ name, color, checked }: Calendar) => {
-      if (calendars.find((calendar) => calendar.name === name)) {
-        return;
-      }
-
+    ({ id, name, color, checked }: Calendar) => {
       setCalendars((prev) =>
         prev.concat({
+          id,
           name,
           color,
           checked,
@@ -25,6 +22,7 @@ const useCalendarsStateActions = () => {
         "calendars",
         JSON.stringify(
           calendars.concat({
+            id,
             name,
             color,
             checked,
@@ -36,28 +34,28 @@ const useCalendarsStateActions = () => {
   );
 
   const find = useCallback(
-    (name: string) => {
-      return calendars.find((calendar) => calendar.name === name);
+    (id: string) => {
+      return calendars.find((calendar) => calendar.id === id);
     },
     [calendars]
   );
 
   const toggle = useCallback(
-    (name: string) => {
-      const calendar = find(name);
-      if (!calendar) {
+    (id: string) => {
+      const calendar = find(id);
+      if (calendar === undefined) {
         return;
       }
 
       setCalendars((prev) =>
-        prev.map((v) => (v.name === name ? { ...v, checked: !v.checked } : v))
+        prev.map((v) => (v.id === id ? { ...v, checked: !v.checked } : v))
       );
 
       localStorage.setItem(
         "calendars",
         JSON.stringify(
           calendars.map((v) =>
-            v.name === name ? { ...v, checked: !v.checked } : v
+            v.id === id ? { ...v, checked: !v.checked } : v
           )
         )
       );
@@ -66,29 +64,25 @@ const useCalendarsStateActions = () => {
   );
 
   const remove = useCallback(
-    (name: string) => {
-      setCalendars((prev) => prev.filter((v) => v.name !== name));
+    (id: string) => {
+      setCalendars((prev) => prev.filter((v) => v.id !== id));
       localStorage.setItem(
         "calendars",
-        JSON.stringify(calendars.filter((v) => v.name !== name))
+        JSON.stringify(calendars.filter((v) => v.id !== id))
       );
     },
     [calendars, setCalendars]
   );
 
   const update = useCallback(
-    (calendar: Calendar, updateOption: CalendarOption) => {
-      if (
-        updateOption.name &&
-        calendar.name !== updateOption.name &&
-        find(updateOption.name) !== undefined
-      ) {
+    (calendarId: Calendar["id"], updateOption: CalendarOption) => {
+      if (find(calendarId) === undefined) {
         return;
       }
 
       setCalendars((prev) =>
         prev.map((v) =>
-          v.name !== calendar.name
+          v.id !== calendarId
             ? v
             : {
                 ...v,
@@ -101,7 +95,7 @@ const useCalendarsStateActions = () => {
         "calendars",
         JSON.stringify(
           calendars.map((v) =>
-            v.name !== calendar.name ? v : { ...v, ...updateOption }
+            v.id !== calendarId ? v : { ...v, ...updateOption }
           )
         )
       );
