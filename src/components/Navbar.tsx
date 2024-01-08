@@ -158,10 +158,7 @@ const UpdaterModal = ({
         />
         <button
           onClick={() => {
-            update(
-              { id, name, color, checked },
-              { name: updateName, color: updateColor }
-            );
+            update(id, { name: updateName, color: updateColor });
             onDismiss();
           }}
         >
