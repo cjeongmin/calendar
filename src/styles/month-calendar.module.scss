@@ -44,13 +44,24 @@
       .schedule-item {
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
-        div {
-          width: 5px;
-          height: 5px;
-          background-color: white;
-          border-radius: 50%;
-          margin-right: 0.5rem;
+        .color-content {
+          display: flex;
+          align-items: center;
+
+          .color {
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+          }
+        }
+
+        .time {
+          color: #ededed;
+          font-size: 0.7rem;
         }
       }
     }

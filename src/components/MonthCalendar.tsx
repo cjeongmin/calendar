@@ -61,8 +61,19 @@ const DateItem = ({
       </span>
       {schedules.map((schedule, i) => (
         <div key={i} className={styles["schedule-item"]}>
-          <div />
-          {schedule.content}
+          <div className={styles["color-content"]}>
+            <div className={styles["color"]} />
+            {schedule.content}
+          </div>
+          <span className={styles["time"]}>
+            {`${schedule.date
+              .getHours()
+              .toString()
+              .padStart(2, "0")}:${schedule.date
+              .getMinutes()
+              .toString()
+              .padStart(2, "0")}`}
+          </span>
         </div>
       ))}
     </div>
