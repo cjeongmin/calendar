@@ -5,6 +5,8 @@
   color: #dbdbdb;
   flex: 1 0 0;
 
+  overflow: auto;
+
   .week {
     display: flex;
     justify-content: space-between;
@@ -20,15 +22,37 @@
 
   .dates {
     display: grid;
-    flex-grow: 1;
+    flex: 1 0 0;
 
     grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(auto-fill, minmax(1fr, auto));
 
-    span {
+    .date-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+
       font-size: 0.8rem;
       padding: 5px;
       border-top: 1px solid #303030;
       border-left: 1px solid #303030;
+
+      span {
+        text-align: end;
+      }
+
+      .schedule-item {
+        display: flex;
+        align-items: center;
+
+        div {
+          width: 5px;
+          height: 5px;
+          background-color: white;
+          border-radius: 50%;
+          margin-right: 0.5rem;
+        }
+      }
     }
 
     border-right: 1px solid #303030;
@@ -46,9 +70,5 @@
   .today {
     color: #ff5c47;
     font-weight: bold;
-  }
-
-  span {
-    text-align: end;
   }
 }

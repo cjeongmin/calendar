@@ -1,8 +1,11 @@
 "use client";
 
+import { Schedule } from "@/atoms/schedules";
 import { useMainCalendarDateState } from "@/hooks/useGlobalState";
+import useSchedulesStateActions from "@/hooks/useSchedulesStateActions";
 import styles from "@/styles/month-calendar.module.scss";
 import { getDates, isSameDate } from "@/utils/date";
+import { MouseEventHandler, useCallback, useEffect, useState } from "react";
 
 const DateItem = ({
   date,
@@ -15,13 +18,28 @@ const DateItem = ({
   isToday: boolean;
   isWeekend: boolean;
 }) => {
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const { add, find } = useSchedulesStateActions();
+
+  const createSchedule: MouseEventHandler<HTMLDivElement> = useCallback(() => {
+    add({
+      id: crypto.randomUUID(),
+      content: "새로운 일정",
+      date: date,
+      memo: "",
+      withoutTime: false,
+    });
+  }, [add, date]);
+
+  useEffect(() => {
+    setSchedules(find({ date: date }));
+  }, [find, date]);
+
   return (
-    <span
-      className={[
-        isWeekend ? styles["weekend"] : "",
-        isOtherMonth ? styles["other-month"] : "",
-        isToday ? styles["today"] : "",
-      ].join(" ")}
+    <div
+      className={[styles["date-item"], isWeekend ? styles["weekend"] : ""].join(
+        " "
+      )}
       style={
         isWeekend
           ? {
@@ -29,11 +47,25 @@ const DateItem = ({
             }
           : {}
       }
+      onDoubleClick={createSchedule}
     >
-      {date.getDate() === 1
-        ? `${date.getMonth() + 1}월 ${date.getDate()}일`
-        : `${date.getDate()}일`}
-    </span>
+      <span
+        className={[
+          isOtherMonth ? styles["other-month"] : "",
+          isToday ? styles["today"] : "",
+        ].join(" ")}
+      >
+        {date.getDate() === 1
+          ? `${date.getMonth() + 1}월 ${date.getDate()}일`
+          : `${date.getDate()}일`}
+      </span>
+      {schedules.map((schedule, i) => (
+        <div key={i} className={styles["schedule-item"]}>
+          <div />
+          {schedule.content}
+        </div>
+      ))}
+    </div>
   );
 };
 

@@ -37,7 +37,12 @@ export default function Home() {
 
     const schedulesData = localStorage.getItem("schedules");
     if (schedulesData) {
-      const alt: Schedule[] = JSON.parse(schedulesData);
+      const alt: Schedule[] = JSON.parse(schedulesData, (key, value) => {
+        if (key === "date") {
+          return new Date(value);
+        }
+        return value;
+      });
       setSchedules(alt);
     } else {
       localStorage.setItem("schedules", JSON.stringify([]));

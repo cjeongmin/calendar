@@ -2,7 +2,7 @@ import { Calendar, calendarsState } from "@/atoms/calendars";
 import { useCallback, useMemo } from "react";
 import { useRecoilState } from "recoil";
 
-type CalendarOption = { [key in keyof Calendar]?: Calendar[key] };
+type CalendarOption = { readonly [key in keyof Calendar]?: Calendar[key] };
 
 const useCalendarsStateActions = () => {
   const [calendars, setCalendars] = useRecoilState(calendarsState);

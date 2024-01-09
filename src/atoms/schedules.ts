@@ -2,6 +2,7 @@ import { atom, selectorFamily } from "recoil";
 import { Calendar } from "./calendars";
 
 export type Schedule = {
+  [key: string]: any;
   id: string;
   calendar?: Calendar;
   content: string;

@@ -1,8 +1,12 @@
 import { useCallback, useMemo } from "react";
 import useSchedulesState from "./useSchedulesState";
 import { Schedule } from "@/atoms/schedules";
+import { secureHeapUsed } from "crypto";
+import { isEqual } from "@/utils/date";
 
-type ScheduleOption = { [key in keyof Schedule]?: Schedule[key] };
+type ScheduleOption = {
+  readonly [key in keyof Schedule]?: Schedule[key];
+};
 
 const useSchedulesStateActions = () => {
   const [schedules, setSchedules] = useSchedulesState();
@@ -52,13 +56,35 @@ const useSchedulesStateActions = () => {
     [schedules, setSchedules]
   );
 
+  const find = useCallback(
+    (option?: ScheduleOption) => {
+      if (option === undefined) {
+        return schedules;
+      }
+
+      let ret = [...schedules];
+      for (const key in option) {
+        if (key === "date") {
+          const optionDate = option.date;
+          if (optionDate === undefined) continue;
+          ret = ret.filter((schedule) => isEqual(schedule.date, optionDate));
+        } else {
+          ret = ret.filter((schedule) => schedule[key] === option[key]);
+        }
+      }
+      return ret;
+    },
+    [schedules]
+  );
+
   return useMemo(
     () => ({
       add,
       update,
       remove,
+      find,
     }),
-    [add, update, remove]
+    [add, update, remove, find]
   );
 };
 
