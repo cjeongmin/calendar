@@ -9,11 +9,15 @@ import { MouseEventHandler, useCallback, useEffect, useState } from "react";
 
 const DateItem = ({
   date,
+  selectedSchedule,
+  setSelectedSchedule,
   isOtherMonth,
   isToday,
   isWeekend,
 }: {
   date: Date;
+  selectedSchedule: Schedule | null;
+  setSelectedSchedule: (schedule: Schedule | null) => void;
   isOtherMonth: boolean;
   isToday: boolean;
   isWeekend: boolean;
@@ -47,6 +51,11 @@ const DateItem = ({
             }
           : {}
       }
+      onClick={() => {
+        if (selectedSchedule) {
+          setSelectedSchedule(null);
+        }
+      }}
       onDoubleClick={createSchedule}
     >
       <span
@@ -60,7 +69,17 @@ const DateItem = ({
           : `${date.getDate()}일`}
       </span>
       {schedules.map((schedule, i) => (
-        <div key={i} className={styles["schedule-item"]}>
+        <div
+          key={i}
+          className={[
+            styles["schedule-item"],
+            schedule.id === selectedSchedule?.id ? styles["selected"] : "",
+          ].join(" ")}
+          onClick={(ev) => {
+            ev.stopPropagation();
+            setSelectedSchedule(schedule);
+          }}
+        >
           <div className={styles["color-content"]}>
             <div className={styles["color"]} />
             {schedule.content}
@@ -81,8 +100,11 @@ const DateItem = ({
 };
 
 const MonthCalendar = () => {
-  const today = new Date();
   const [calendarDate, setCalendarDate] = useMainCalendarDateState();
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
+    null
+  );
+  const today = new Date();
   const dates = getDates(
     calendarDate.getFullYear(),
     calendarDate.getMonth() + 1
@@ -104,6 +126,8 @@ const MonthCalendar = () => {
           <DateItem
             key={i}
             date={v}
+            selectedSchedule={selectedSchedule}
+            setSelectedSchedule={setSelectedSchedule}
             isOtherMonth={calendarDate.getMonth() !== v.getMonth()}
             isToday={isSameDate(v, today)}
             isWeekend={i % 7 === 0 || i % 7 === 6 ? true : false}
